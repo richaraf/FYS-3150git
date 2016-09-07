@@ -15,7 +15,23 @@ int main()
     int n = 0; // dimensions of n x n matrix
     cout << "Give me the dimension n for the n x n matrix: " << endl;
     cin >> n;
-    double a[n+1], b[n+1], c[n+1], f[n+1], d[n+1], k[n+1], v[n+1], x[n+2], btild[n+1]; // declaring the vectors
+    int *a = new int[n+1]; // declaring vectors
+    int *b = new int[n+1];
+    int *c = new int[n+1];
+    double *d = new double[n+1]; // declaring more vector
+    double *k = new double[n+1];
+    double *v = new double[n+1];
+    double *x = new double[n+2];
+    double *btild = new double[n+1];
+    double *f = new double[n+2];
+
+    /*double *p = new double[n+1];
+    for (int i=1;i<=n+1;i++)
+    {
+        p[i] = p[i-1]*i + i;
+        cout << p[i] << endl;;
+    }
+    */
     double h = 1.0/(n+1); // declaring the step length h
     //cout << h << endl; // printing step length h
 
@@ -54,7 +70,7 @@ int main()
     }
     for (int i = n-400; i<= n-380; i++)
     {
-        cout << "solution: " << AnalyticalSolution(x[i]) << " numerical: " << v[i] << endl;
+        // cout << "solution: " << AnalyticalSolution(x[i]) << " numerical: " << v[i] << endl;
     }
 
     // writing to txt file v:
@@ -68,6 +84,6 @@ int main()
     }
     outputFile << setprecision(10) << setw(20) << v[n];
     outputFile.close();
-
+    cout << "Program completed without crash!" << endl;
     return 0;
 }
