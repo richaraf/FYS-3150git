@@ -23,6 +23,8 @@ int main()
     double *v = new double[n+1];
     double *x = new double[n+2];
     double *btild = new double[n+1];
+    double *f = new double[n+2];
+
 
     double h = 1.0/(n+1); // declaring the step length h
     //cout << h << endl; // printing step length h
@@ -49,9 +51,8 @@ int main()
     for (int i = n; i >= 0; i--)
     {
         v[i] = (k[i] - c[i]*v[i+1])/d[i];
-        // cout << v[i] << endl;
+        cout << "num = " << v[i] << "ana = " << AnalyticalSolution(x[i]) << endl;
     }
-
     /*
     // writing to txt file v:
     ofstream outputFile;
@@ -64,9 +65,8 @@ int main()
     }
     outputFile << setprecision(10) << setw(20) << v[n];
     outputFile.close();
-    cout << "Program completed without crash!" << endl;
     */
-    //delete [] a;
-    //delete [] b;
+
+    cout << "Program completed without crash!" << endl;
     return 0;
 }
