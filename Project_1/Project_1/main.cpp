@@ -34,9 +34,12 @@ int main()
         x[i] = i*h;
         // cout << i*h << endl;
     }
-    d[0] = 2;
+    d[1] = 2;
+    a[1] = -1;
+    c[1] = -1;
+    k[1] = pow(h,2.0)*fofx(x[1]);
     // gaussian elimination in for-loop:
-    for (int i = 1; i <= n+1; i++) // filling a, b and c. Also f with f(x) and btild, and d and k.
+    for (int i = 2; i <= n+1; i++) // filling a, b and c. Also f with f(x) and btild, and d and k.
     {
         a[i] = -1;
         b[i] = 2;
