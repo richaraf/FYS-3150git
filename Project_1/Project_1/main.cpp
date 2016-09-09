@@ -29,6 +29,11 @@ int main()
     double h = 1.0/(n+1); // declaring the step length h
     //cout << h << endl; // printing step length h
 
+    // Start timer
+    clock_t start, finish;
+    start = clock();
+
+
     for (int i = 1; i <= n+2; i++) // for-loop to generate the x-vectors elements
     {
         x[i] = i*h;
@@ -54,7 +59,7 @@ int main()
     for (int i = n; i >= 0; i--)
     {
         v[i] = (k[i] - c[i]*v[i+1])/d[i];
-        cout << "num = " << v[i] << "ana = " << AnalyticalSolution(x[i]) << endl;
+        //cout << "num = " << v[i] << "ana = " << AnalyticalSolution(x[i]) << endl;
     }
     /*
     // writing to txt file v:
@@ -69,6 +74,13 @@ int main()
     outputFile << setprecision(10) << setw(20) << v[n];
     outputFile.close();
     */
+
+    // End timer
+    finish = clock();
+    ((finish-start)/CLOCKS_PER_SEC);
+    double timeused = (double) (finish - start)/(CLOCKS_PER_SEC );
+    cout << setiosflags(ios::showpoint | ios::uppercase);
+    cout << setprecision(10) << setw(20) << "Time used =" << timeused  << endl;
 
     cout << "Program completed without crash!" << endl;
     return 0;
