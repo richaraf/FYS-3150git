@@ -30,7 +30,7 @@ v = array(v)
 n = len(v)
 h = 1.0/(n+1);
 x = zeros(n)
-for i in range(n):
+for i in range(0,n):
 	x[i] = i*h
 
 anasol = 1 - (1 - exp(-10))*x - exp(-10*x)
