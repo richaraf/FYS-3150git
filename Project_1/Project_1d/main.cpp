@@ -63,11 +63,11 @@ int main()
 
 
         // find errors for this n:
-        double lowvalue = 0.0;
+        double lowvalue = -100.0;
         for (int i = 1; i <= n; i++)
         {
             epsilon[i] = log10(abs((v[i]-AnalyticalSolution(x[i]))/AnalyticalSolution(x[i])));
-            if (epsilon[i] < lowvalue)
+            if (epsilon[i] > lowvalue)
             {
                 lowvalue = epsilon[i];
                 error[j] = lowvalue;
@@ -76,8 +76,8 @@ int main()
         }
 
 
-        //cout << j << endl;
-        //cout << error[j] << endl;
+        cout << j/2.0 << endl;
+        cout << error[j] << endl;
 
         for (int i = n; i >= (n-10); i--)
         {

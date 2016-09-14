@@ -10,8 +10,9 @@ n = zeros(len(error))
 for i in range(len(error)):
 	n[i] = 10**(i/2.0)
 
-print n
+#print n
 h = 1.0/(n+1)
+#print error
 subplot(2,1,1)
 plot(log10(n),error,'-o',xlabel='log10(n)', ylabel='maxerror')
 subplot(2,1,2)
