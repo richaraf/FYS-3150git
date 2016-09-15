@@ -23,8 +23,6 @@ int main()
     double *v = new double[n+1];
     double *x = new double[n+2];
     double *btild = new double[n+1];
-    double *f = new double[n+2];
-
 
     double h = 1.0/(n+1); // declaring the step length h
     //cout << h << endl; // printing step length h
