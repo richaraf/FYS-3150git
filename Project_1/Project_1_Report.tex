@@ -19,7 +19,77 @@
 
 \section{Introduction}
 \section{Theory}
+%The three-dimensional Poisson equation can be given by
+%\begin{equation}
+%\nabla ^2 \Phi = - 4\pi \rho (\textbf{r}),
+%\label{eq:3d_Poisson}
+%\end{equation}
+%where $\Phi$ is the electrostatic field from a localized charge distribution $\rho(\textbf{r})$. Equation (\ref{eq:3d_Poisson}) can be simplified to one dimension by assuming 
+
+The equation
+\begin{equation}
+-u''(x) = f(x),
+\label{eq:udereqf}
+\end{equation}
+from $x=0$ to $x=1$ with Dirichlet boundary conditions ($u(0)=u(1)=0$), where $f(x)$ is known, can be solved numerically. To find an approximation for $-u''(x)$, we can use that
+\begin{equation}
+-\frac{v_{i+1}+v_{i-1} - 2v_i}{h^2} \approx f_i\, , \text{ for } i = 1, 2, ..., n,
+\label{eq:uderapprox}
+\end{equation}
+where $f_i=f(x_i)$, $x_i = ih$ up to $x_{n+1} = 1$, $h$ is the step length given by $h=1/(n+1)$, and $v_i$ is the approximation to the second derivative in point $x_i$. 
+
+To solve equation (\ref{eq:uderapprox}), we can rewrite it as a linear set of equations on the form \begin{equation}
+A\textbf{v} = \tilde{\textbf{b}},
+\label{eq:Aveqb}
+\end{equation} For $i=1$, we have that 
+$$h^2f_1 \approx -v_0 + 2v_1 - v_2 = 2v_1-v_2,$$
+and for $i=n$ we have 
+$$h^2f_n = -v_{n-1} + 2v_n - v_{n+1} = -v_{n-1} + 2v_n.$$ From the equations for the cases $i=1,...\,,i,...\,,n$, $A$ must be a tridiagonal matrix with $-1$ and $2$ along the diagonals
+$$A = \begin{pmatrix}
+2&-1&0&0&...&0&0&0\\
+-1&2&-1&0&...&0&0&0\\
+0&-1&2&-1&...&0&0&0\\
+:&:&:&:& : &:&:&:\\
+0&0&0&0&...&-1&2&-1\\
+0&0&0&0&...&0&-1&2
+\end{pmatrix}$$
+and $\tilde{\textbf{b}}_i = h^2f_i$
 \section{Method}
+\subsection{Gaussian elimination}
+To solve equation (\ref{eq:Aveqb}) using Gaussian elimination, we first look at the general case where $$\tilde{
+b}_i = a_i\,v_{i-1} + b_i\,v_i + c_i\,v_{i+1},$$ where $a_1=0$ and $c_n=0$.
+For $n=4$, $A$ is a $4$ x $4$ matrix:
+$$A = \begin{pmatrix}
+b_1&c_1&0&0\\
+a_1&b_2&c_2&0\\
+0&a_2&b_3&c_3\\
+0&0&a_3&b_4
+\end{pmatrix}.
+$$
+To solve equation (\ref{eq:Aveqb}) where $A$ is this $4$ x $4$ matrix, we first do a round of forward substitutions.
+$$\begin{pmatrix}
+b_1&c_1&0&0&\tilde{b}_1\\
+a_1&b_2&c_2&0&\tilde{b}_2\\
+0&a_2&b_3&c_3&\tilde{b}_3\\
+0&0&a_3&b_4&\tilde{b}_4
+\end{pmatrix} \rightarrow \begin{pmatrix}
+b_1&c_1&0&0&\tilde{b}_1\\
+0&b_2-\frac{a_1}{b_1}c_1&c_2&0&\tilde{b}_2-\tilde{b}_1\frac{a_1}{b_1}\\
+0&a_2&b_3&c_3&\tilde{b}_3\\
+0&0&a_3&b_4&\tilde{b}_4
+\end{pmatrix}.$$
+We then define $d_1=b_1$, $d_2=b_2-(a_1/b_1)c_1$ and $k_1=\tilde{b}_1$, $k_2=\tilde{b}_2-\tilde{b}_1(a_1/b_1)$. 
+$$\begin{pmatrix}
+d_1&c_1&0&0&k_1\\
+0&d_2&c_2&0&k_2\\
+0&a_2&b_3&c_3&\tilde{b}_3\\
+0&0&a_3&b_4&\tilde{b}_4
+\end{pmatrix} \rightarrow \begin{pmatrix}
+d_1&c_1&0&0&k_1\\
+0&d_2&c_2&0&k_2\\
+0&0&b_3-\frac{a_2}{d_2}c_2&c_3&\tilde{b}_3-\frac{a_2}{d_2}k_2\\
+0&0&a_3&b_4&\tilde{b}_4
+\end{pmatrix}$$
 \section{Results}
 \section{Discussion}
 \section{Conclusion}
