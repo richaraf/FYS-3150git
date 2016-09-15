@@ -24,6 +24,7 @@ with open('1bn100.txt', 'r') as ins:
 	v = []
 	for line in ins:
 		v.append(float(line))
+
 v = array(v)
 n = len(v)
 h = 1.0/(n+1);
