@@ -61,6 +61,14 @@ int main()
         v[i] = (k[i] - c[i]*v[i+1])/d[i];
         //cout << "num = " << v[i] << "ana = " << AnalyticalSolution(x[i]) << endl;
     }
+
+    // End timer
+    finish = clock();
+    ((finish-start)/CLOCKS_PER_SEC);
+    double timeused = (double) (finish - start)/(CLOCKS_PER_SEC );
+    cout << setiosflags(ios::showpoint | ios::uppercase);
+    cout << setprecision(10) << setw(20) << "Time used =" << timeused  << endl;
+
     /*
     // writing to txt file v:
     ofstream outputFile;
@@ -74,13 +82,6 @@ int main()
     outputFile << setprecision(10) << setw(20) << v[n];
     outputFile.close();
     */
-
-    // End timer
-    finish = clock();
-    ((finish-start)/CLOCKS_PER_SEC);
-    double timeused = (double) (finish - start)/(CLOCKS_PER_SEC );
-    cout << setiosflags(ios::showpoint | ios::uppercase);
-    cout << setprecision(10) << setw(20) << "Time used =" << timeused  << endl;
 
     cout << "Program completed without crash!" << endl;
     return 0;
