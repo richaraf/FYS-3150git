@@ -20,8 +20,8 @@ int main()
     int *c = new int[n+1];
     double *d = new double[n+1]; // declaring more vector
     double *k = new double[n+1];
-    double *v = new double[n+2];
-    double *x = new double[n+2];
+    double *v = new double[n+1];
+    double *x = new double[n+1];
     double *btild = new double[n+1];
 
     double h = 1.0/(n+1); // declaring the step length h
@@ -61,7 +61,7 @@ int main()
     {
         v[i] = (k[i] - c[i]*v[i+1])/d[i];
         // Here we can print to see if the numerical values match with the analytical solution.
-        //cout << "num = " << v[i] << "ana = " << AnalyticalSolution(x[i]) << endl;
+        cout << "num = " << v[i] << "ana = " << AnalyticalSolution(x[i]) << endl;
     }
 
     // End timer
