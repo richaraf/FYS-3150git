@@ -20,7 +20,7 @@ int main()
     int *c = new int[n+1];
     double *d = new double[n+1]; // declaring more vector
     double *k = new double[n+1];
-    double *v = new double[n+1];
+    double *v = new double[n+2];
     double *x = new double[n+2];
     double *btild = new double[n+1];
 
@@ -41,22 +41,26 @@ int main()
     a[1] = -1;
     c[1] = -1;
     k[1] = pow(h,2.0)*fofx(x[1]);
-    // gaussian elimination in for-loop:
-    for (int i = 2; i <= n+1; i++) // filling a, b and c. Also f with f(x) and btild, and d and k.
+
+    // Implementation of gaussian elimination:
+    for (int i = 2; i <= n+1; i++)
     {
+        // First fill the known vectors a, b, c and btild with their values.
         a[i] = -1;
         b[i] = 2;
         c[i] = -1;
         btild[i] = pow(h, 2.0)*fofx(x[i]);
+
+        // Here we do the forward substitution.
         d[i] = b[i] - (a[i-1]/d[i-1])*c[i-1];
         k[i] = btild[i] - (a[i-1]/d[i-1])*k[i-1];
-        //cout << a[i] << " " << b[i] << " " << c[i] << endl;
     }
 
-    // backward substitution:
+    // Implementation of backward substitution:
     for (int i = n; i >= 0; i--)
     {
         v[i] = (k[i] - c[i]*v[i+1])/d[i];
+        // Here we can print to see if the numerical values match with the analytical solution.
         //cout << "num = " << v[i] << "ana = " << AnalyticalSolution(x[i]) << endl;
     }
 
@@ -66,6 +70,7 @@ int main()
     double timeused = (double) (finish - start)/(CLOCKS_PER_SEC );
     cout << setiosflags(ios::showpoint | ios::uppercase);
     cout << setprecision(10) << setw(20) << "Time used =" << timeused  << endl;
+
 
     /*
     // writing to txt file v:
