@@ -7,6 +7,20 @@
 \usepackage{amsmath}
 \usepackage{float}
 \usepackage{subcaption}
+\usepackage{color}
+\usepackage{listings}
+\lstset{
+    frame=single,
+    breaklines=true,
+    postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}
+}
+\lstset{language=C++,
+                basicstyle=\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+}
 \title{Project 1}
 \author{Richard Andre Fauli}
 \date{\today}
@@ -89,10 +103,48 @@ d_1&c_1&0&0&k_1\\
 0&d_2&c_2&0&k_2\\
 0&0&b_3-\frac{a_2}{d_2}c_2&c_3&\tilde{b}_3-\frac{a_2}{d_2}k_2\\
 0&0&a_3&b_4&\tilde{b}_4
-\end{pmatrix}$$
+\end{pmatrix}.$$
+We now define that $d_3 = b_3-(a_2/d_2)c_2$ and $k_3=\tilde{b}_3-(a_2/d_2)k_2$ such that we get
+$$\begin{pmatrix}
+d_1&c_1&0&0&k_1\\
+0&d_2&c_2&0&k_2\\
+0&0&d_3&c_3&k_3\\
+0&0&a_3&b_4&\tilde{b}_4
+\end{pmatrix}\rightarrow \begin{pmatrix}
+d_1&c_1&0&0&k_1\\
+0&d_2&c_2&0&k_2\\
+0&0&d_3&c_3&k_3\\
+0&0&0&b_4-\frac{a_3}{d_3}c_3&\tilde{b}_4-\frac{a_3}{d_3}k_3
+\end{pmatrix},$$
+from which we can make $d_4=b_4-\frac{a_3}{d_3}c_3$ and $k_4 = \tilde{b}_4-\frac{a_3}{d_3}k_3$. The expressions we defined can be generalized to \begin{align*}
+d_i=b_i-\frac{a_{i-1}}{d_{i-1}}c_{i-1} && k_i=\tilde{b}_i-\frac{a_{i-1}}{d_{i-1}}k_{i-1}.
+\end{align*}
+Now we can find $v_i$ by using backward substitution. For our $4$ x $4$ matrix we get:
+\begin{align*}
+d_4v_4=k_4 &\rightarrow v_4 = \frac{k_4}{d_4} \\
+d_3v_3+c_3v_4 = k_3 &\rightarrow v_3=\frac{k_3-c_3v_4}{d_3} \\
+d_2v_2+c_2v_3 = k_2 &\rightarrow v_2=\frac{k_2-c_2v_3}{d_2} \\
+d_1v_1+c_1v_2 = k_1 &\rightarrow v_1=\frac{k_1-c_1v_2}{d_1},
+\end{align*}
+which gives us our general formula for $v_i$
+$$v_i=\frac{k_i-c_iv_{i+1}}{d_i}.$$
+
+Counting floating points operations (FLOPS) for the general case we get $3n+3n+3n=9n$ FLOPS. The implementation of Gaussian elimination on a general $n$ x $n$ tridiagonal is found in section 8.1. 
+\\* \\*
+For our special case we know that $a_i=c_i=-1$ and $b_i=2$, which gives us the following expressions for $d_i$, $k_i$ and $v_i$:
+\begin{align*}
+d_i = 2-\frac{1}{d_{i-1}} && k_i = \tilde{b}_i + \frac{k_{i-1}}{d_{i-1}} && v_i = \frac{k_i+v_{i+1}}{d_i}.
+\end{align*}
+Our specialized method has $2n+2n+2n=6n$ FLOPS, which is implemented in by the program in section 8.2.
+
 \section{Results}
 \section{Discussion}
 \section{Conclusion}
 \section{References}
 \section{Code attachment}
+%\lstinputlisting{build-Project_1-Desktop_Qt_5_7_0_GCC_64bit-Debug/plot1b.py}
+\subsection{Gaussian elimination on general tridiagonal matrix}
+\lstinputlisting{Project_1/main.cpp}
+\subsection{Specialized Gaussian elimination on tridiagonal matrix}
+\lstinputlisting{Project_1c/main.cpp}
 \end{document}
