@@ -24,7 +24,7 @@
 \lstset{postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
 
 
-\title{Project 1}
+\title{FYS-3150: Project 1}
 \author{Richard Andre Fauli}
 \date{\today}
 \begin{document}
@@ -32,9 +32,9 @@
 \maketitle
 
 \begin{abstract}
-We approximated the second derivative of a known function using Dirichlet boundry conditions by reformulating the problem as a matrix equation. Two slightly different methods of Gaussian elimination and a method based on LU decomposition were used to solve the matrix equation. 
+We approximated the second derivative of a known function using Dirichlet boundry conditions by reformulating the problem as a matrix equation. Two slightly different methods of Gaussian elimination, and a method based on LU decomposition were used to solve the matrix equation. 
 
-It was found the Gaussian elimination methods were much more efficient than LU decomposition especially for many iteration points. The optimal amount of iteration points concerning the error was found to be $n=10^5$, and for smaller $n$ the error was a consequence of mathematical round-off error and for larger $n$ it was dominated by loss of numerical precision.
+It was found that the Gaussian elimination methods were much less time consuming than LU decomposition especially for many iteration points. The optimal amount of iteration points concerning the error was found to be $n=10^5$, and for smaller $n$ the error was a consequence of mathematical round-off error and for larger $n$ it was dominated by loss of numerical precision.
 \end{abstract}
 \begin{itemize}
 \item Github repository containing programs and results are in: \url{https://github.com/richaraf/FYS-3150git/tree/master/Project_1}
@@ -45,12 +45,12 @@ In physics and science in general, linear second-order differential equations ca
 \nabla ^2 \Phi = - 4\pi \rho (\textbf{r}),
 \label{eq:3d_Poisson}
 \end{equation}
-where $\Phi$ is the electrostatic field from a localized charge distribution $\rho(\textbf{r})$. Equation (\ref{eq:3d_Poisson}) can be simplified to one dimension by assuming radial symmetry, and then by doing some substitution it can be rewritten as a simple
+where $\Phi$ is the electrostatic field from a localized charge distribution $\rho(\textbf{r})$. Equation (\ref{eq:3d_Poisson}) can be simplified to one dimension by assuming radial symmetry, and then by doing some substitutions it can be rewritten as a simple equation
 \begin{equation}
--u''(x) = f(x),
+-u''(x) = f(x).
 \label{eq:udereqf}
 \end{equation}
-In this project, we write equation (\ref{eq:udereqf}) as a matrix equation, and then solve the matrix equation numerically in three different ways. Since many problems require solving second-order differential equations, the methods used to solve it be used again for other problems that themselves can be expressed as equation (\ref{eq:udereqf}).
+In this project, we write equation (\ref{eq:udereqf}) as a matrix equation, and then solve the matrix equation numerically in three different ways. Since many problems require solving second-order differential equations, the methods used to solve it can prove useful for solving other problems that can be reduced to equation (\ref{eq:udereqf}).
 
 \section{Theory}
 Equation (\ref{eq:udereqf}) from $x=0$ to $x=1$ with Dirichlet boundary conditions ($u(0)=u(1)=0$), where $f(x)$ is known, can be solved numerically. To find an approximation for $-u''(x)$, we can use a three point formula
@@ -75,7 +75,7 @@ $$A = \begin{pmatrix}
 0&0&0&0&...&-1&2&-1\\
 0&0&0&0&...&0&-1&2
 \end{pmatrix}$$
-and $\tilde{\textbf{b}}_i = h^2f_i$
+and $\tilde{\textbf{b}}_i = h^2f_i$.
 \\* \\* \noindent
 When we use numerical methods for solving a problem where we have the analytical solution at hand, we can compute the relative error at each iteration-point $\epsilon _i$, by using the following expression
 \begin{equation}
@@ -87,7 +87,7 @@ where $v_i$ is the numerical solution at $v(x_i)$ and $u_i$ is the corresponding
 \subsection{Gaussian elimination}
 To solve equation (\ref{eq:Aveqb}) using Gaussian elimination, we first look at the general case where $$\tilde{
 b}_i = a_i\,v_{i-1} + b_i\,v_i + c_i\,v_{i+1},$$ where $a_1=0$ and $c_n=0$.
-For $n=4$, $A$ is a $4$ x $4$ matrix:
+For $n=4$, $A$ is a $4$ x $4$ matrix
 $$A = \begin{pmatrix}
 b_1&c_1&0&0\\
 a_1&b_2&c_2&0\\
@@ -95,7 +95,7 @@ a_1&b_2&c_2&0\\
 0&0&a_3&b_4
 \end{pmatrix}.
 $$
-To solve equation (\ref{eq:Aveqb}) where $A$ is this $4$ x $4$ matrix, we first do a round of forward substitutions.
+To solve equation (\ref{eq:Aveqb}) where $A$ is this $4$ x $4$ matrix, we first do a set of forward substitutions.
 $$\begin{pmatrix}
 b_1&c_1&0&0&\tilde{b}_1\\
 a_1&b_2&c_2&0&\tilde{b}_2\\
@@ -144,7 +144,7 @@ d_1v_1+c_1v_2 = k_1 &\rightarrow v_1=\frac{k_1-c_1v_2}{d_1},
 which gives us our general formula for $v_i$
 $$v_i=\frac{k_i-c_iv_{i+1}}{d_i}.$$
 
-Counting floating points operations (FLOPS) for the general case we get $3n+3n+3n=9n$ FLOPS. The implementation of Gaussian elimination on a general $n$ x $n$ tridiagonal is found in section \ref{subsec:Gausgen}. $v_i$ was written to file, for $n=10,100,1000$ grid points, and using a python script (\ref{subsec:Visual}) the numerical solution was plotted with our analytical solution. 
+Counting floating point operations (FLOPS) for the general case, we get $3n+3n+3n=9n$ FLOPS. The implementation of Gaussian elimination on a general $n$ x $n$ tridiagonal matrix is found in section \ref{subsec:Gausgen}. $v_i$ was written to file, for $n=10,100,1000$ grid points, and using a python script (\ref{subsec:Visual}) the numerical solution was plotted with our analytical solution. 
 \\* \\* \noindent
 For our special case we know that $a_i=c_i=-1$ and $b_i=2$, which gives us the following expressions for $d_i$, $k_i$ and $v_i$:
 \begin{align*}
@@ -158,9 +158,9 @@ The programs for the two different variants of Gaussian elimination have timers 
 \subsection{LU decomposition}
 Another method for solving matrix equation (\ref{eq:Aveqb}) is to use $LU$ decomposition. Since our matrix $A$ is invertible, we can decompose it into a product of a lower diagonal matrix $L$ and an upper diagonal matrix $U$, which means we can rewrite equation (\ref{eq:Aveqb}) as $LU\textbf{v} = \tilde{b}$, which can be split into two matrix equations $L\textbf{y} = \tilde{\textbf{b}}$ and $U\textbf{v} = \textbf{y}$, where $\textbf{y} = U\textbf{v}$. The program for solving our matrix equation is shown in section \ref{subsec:LUdecomp}, which includes a timer to find the required CPU time.
 
-The LU decomposition and the solving of the two matrix equations was done using the $C++$ library Armadillo. The number of floating point operations for solving a matrix equation is of the order ${\cal O}(n^2)$, and for the LU decomposition ${\cal O}(n^3)$ FLOPS (\cite[p. 173]{MHJ15}), which means that for large $n$, the number of FLOPS is of order ${\cal O}(n^3)$. 
+The LU decomposition and the solving of the two matrix equations was done using the $C++$ library Armadillo. The number of floating point operations for solving a matrix equation is of the order ${\cal O}(n^2)$, and for the LU decomposition ${\cal O}(n^3)$ (\cite[p. 173]{MHJ15}), which means that for large $n$, the number of FLOPS is of order ${\cal O}(n^3)$. 
 \section{Results}
-The general Gaussian elimination method gave for $n=10,100,1000$ plot as in figures \ref{fig:n=10}, \ref{fig:n=100} and \ref{fig:n=1000}.
+The general Gaussian elimination method gave for $n=10,100,1000$ plots as in figures \ref{fig:n=10}, \ref{fig:n=100} and \ref{fig:n=1000}.
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=.8]{n10.eps}
@@ -182,7 +182,7 @@ The general Gaussian elimination method gave for $n=10,100,1000$ plot as in figu
 \label{fig:n=1000}
 \end{center}
 \end{figure}
-The maximum errors for the different for step lengths $h$ and iteration points $n$ are shown in figure \ref{fig:error} (generated by Python script in section \ref{subsec:errorvis} and c++ script in section ), in which we see that the error sinks systematically towards $log_{10}(h)\approx -5$, and from there on it increases in a more chaotic fashion. Some of the values used to generate figure \ref{fig:error} is listed in table \ref{tab:error}.
+The maximum errors for the different step lengths $h$ and iteration points $n$ are shown in figure \ref{fig:error} (generated by Python script in section \ref{subsec:errorvis} and $C++$ script in section \ref{subsec:errorcalc}), in which we see that the error sinks systematically towards $log_{10}(h)\approx -5$, and from there on it increases in a more chaotic fashion. Some of the values used to generate figure \ref{fig:error} is listed in table \ref{tab:error}.
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=.8]{error.eps}
@@ -226,18 +226,17 @@ $10000000$ & $3.6$ & $3.2$ & -- -- \\ \hline
 \end{center}
 \end{table}
 \section{Discussion}
-From figures \ref{fig:n=10}, \ref{fig:n=100} and \ref{fig:n=1000}, we see that the results from the Gaussian elimination method improves as $n$ increases. However if $n$ becomes to large, i.e $h$ becomes too small, the error starts to increase. In figure \ref{fig:error} we see that for large step lengths, $h > 10^{-5}$, the error decreases systematically which suggests that in this area, the error is dominated by the mathematical round-off error. When $h < 10^{-5}$, loss of numerical precision takes over because we subtract numbers that become closer to each other as $h$ becomes smaller. It is clear that when implementing Gaussian elimination in this way to solve equations like equation (\ref{eq:Aveqb}), there is no point in decreasing the step length below $h= 10^{-5}$.
+From figures \ref{fig:n=10}, \ref{fig:n=100} and \ref{fig:n=1000}, we see that the results from the Gaussian elimination method improves as $n$ increases. However from figure \ref{fig:error} we see that if $n$ becomes too large, i.e $h$ becomes too small, the error starts to increase. We see that for large step lengths, $h > 10^{-5}$, the error decreases systematically which suggests that in this area, the error is dominated by the mathematical round-off error. When $h < 10^{-5}$, loss of numerical precision takes over because we subtract numbers that become closer to each other as $h$ becomes smaller. It is clear that when implementing Gaussian elimination in this way to solve equations like equation (\ref{eq:Aveqb}), there is no point in decreasing the step length below $h= 10^{-5}$.
 \\* \\* \noindent
 When we look at the CPU times used for the different methods in table \ref{tab:cputimes}, it is clear that Gaussian elimination by far supersedes the LU decomposition method, as expected. In fact as $n$ becomes larger, the CPU time required for the LU decomposition method increases more than for Gaussian elimination. Another problem with using LU decomposition is that as we start looking at very large matrices, for example $n=10^5$, and we use eight byte precision for each element we would need $80$ GB of memory. For $n=10^6$ gridpoints, we would need a massive $8$ TB of memory, which is even bigger than most hard drives.  
 
 In comparing the CPU times between the general and the specialized Gaussian elimination solvers, we would expect the general method to use about 50\% more time than the specialized version because it requires 50\% more FLOPS. However, this was not the case. The time difference was considerably smaller than 50\%, but the specialized version was faster than the general one for all the tested values of $n$.
 
-As to why the time difference between the two Gaussian elimination methods is not as large as expected could be as simple as that computing $d_i$, $k_i$ and $v_i$ are not the only operations demanding CPU time.
+As to why the time difference between the two Gaussian elimination methods is not as large as expected, could be as simple as that computing $d_i$, $k_i$ and $v_i$ are not the only operations demanding CPU time.
 \section{Conclusion}
-We found that for calculating the second derivative of a known function, using a Gaussian elimination method is much faster than an LU decomposition method, as expected. In fact so much so that for $n=10000$ Gaussian elimination was more than $1000$ times faster than LU decomposition. For very big matrices, LU decomposition was found require vast amount of memory. It was also found that tailoring the Gaussian elimination method to our special case decreased the required computing time, however not as much as anticipated. 
+We found that for calculating the second derivative of a known function, using a Gaussian elimination method is much faster than an LU decomposition method, as expected. In fact so much so that for $n=10000$ Gaussian elimination was more than $1000$ times faster than LU decomposition. For very big matrices, LU decomposition was found to require vast amounts of memory. It was also found that tailoring the Gaussian elimination method to our special case decreased the required computing time, however not as much as anticipated. 
 
-The error found using Gaussian elimination was smallest at around step length $h=10^{-5}$ corresponding to $n=10^5$ grid points. Increasing the number of grid points would only increase CPU time and decrease our precision.
-
+The error found using Gaussian elimination was smallest at around step length $h=10^{-5}$ corresponding to $n=10^5$ grid points. Increasing the number of grid points would increase CPU time and decrease precision.
 \section{References}
 \begingroup
 \renewcommand{\section}[2]{}
