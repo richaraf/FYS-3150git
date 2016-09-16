@@ -9,6 +9,7 @@
 \usepackage{subcaption}
 \usepackage{color}
 \usepackage{listings}
+\usepackage{hyperref}
 \lstset{language=c++}
 \lstset{alsolanguage=[90]Fortran}
 \lstset{basicstyle=\small}
@@ -22,6 +23,7 @@
 \lstset{showtabs=false}
 \lstset{breaklines}
 
+
 \title{Project 1}
 \author{Richard Andre Fauli}
 \date{\today}
@@ -31,8 +33,11 @@
 
 \begin{abstract}
 \end{abstract}
-
+\begin{itemize}
+\item Github repository containing programs and results are in: \url{https://github.com/richaraf/FYS-3150git/tree/master/Project_1}
+\end{itemize}
 \section{Introduction}
+
 \section{Theory}
 %The three-dimensional Poisson equation can be given by
 %\begin{equation}
@@ -130,22 +135,62 @@ d_1v_1+c_1v_2 = k_1 &\rightarrow v_1=\frac{k_1-c_1v_2}{d_1},
 which gives us our general formula for $v_i$
 $$v_i=\frac{k_i-c_iv_{i+1}}{d_i}.$$
 
-Counting floating points operations (FLOPS) for the general case we get $3n+3n+3n=9n$ FLOPS. The implementation of Gaussian elimination on a general $n$ x $n$ tridiagonal is found in section 8.1. 
-\\* \\*
+Counting floating points operations (FLOPS) for the general case we get $3n+3n+3n=9n$ FLOPS. The implementation of Gaussian elimination on a general $n$ x $n$ tridiagonal is found in section 8.1. $v_i$ was written to file, for $n=10,100,1000$ grid points, and using a python script (8.2) the numerical solution was plotted with our analytical solution. 
+
 For our special case we know that $a_i=c_i=-1$ and $b_i=2$, which gives us the following expressions for $d_i$, $k_i$ and $v_i$:
 \begin{align*}
 d_i = 2-\frac{1}{d_{i-1}} && k_i = \tilde{b}_i + \frac{k_{i-1}}{d_{i-1}} && v_i = \frac{k_i+v_{i+1}}{d_i}.
 \end{align*}
-Our specialized method has $2n+2n+2n=6n$ FLOPS, which is implemented in by the program in section 8.2.
+Our specialized method has $2n+2n+2n=6n$ FLOPS, which is implemented in by the program in section 8.3.
 
+\subsection{LU decomposition}
+Another method for solving matrix equation (\ref{eq:Aveqb}) is to use $LU$ decomposition. Since our matrix $A$ is invertible, we can decompose it into a product of a lower diagonal matrix $L$ and an upper diagonal matrix $U$, which means we can rewrite equation (\ref{eq:Aveqb}) as $LU\textbf{v} = \tilde{b}$, which can be split into two matrix equations $L\textbf{y} = \tilde{\textbf{b}}$ and $U\textbf{v} = \textbf{y}$, where $\textbf{y} = U\textbf{v}$. 
+
+The LU decomposition and the solving of the two matrix equations was done using the $C++$ library Armadillo. The number of floating point operations for solving a matrix equation is of the order ${\cal O}(n^2)$, and for the LU decomposition ${\cal O}(n^3)$ FLOPS (\cite[p. 173]{MHJ15}), which means that for large $n$, the number of FLOPS is of order ${\cal O}(n^3)$.
 \section{Results}
+The general Gaussian elimination method gave for $n=10,100,1000$ plot as in figures \ref{fig:n=10}, \ref{fig:n=100} and \ref{fig:n=1000}. 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.8]{n10.eps}
+\caption{Plot of the numerical and analytical solution for $n=10$.}
+\label{fig:n=10}
+\end{center}
+\end{figure}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.8]{n100.eps}
+\caption{Plot of the numerical and analytical solution for $n=100$.}
+\label{fig:n=100}
+\end{center}
+\end{figure}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=.8]{n1000.eps}
+\caption{Plot of the numerical and analytical solution for $n=1000$.}
+\label{fig:n=1000}
+\end{center}
+\end{figure}
 \section{Discussion}
 \section{Conclusion}
 \section{References}
+\begingroup
+\renewcommand{\section}[2]{}
+\begin{thebibliography}{}
+\bibitem{MHJ15}
+  Morten Hjorth-Jensen.
+  Computational Physics, Lecture Notes Fall 2015.
+  Department of Physics, University of Oslo.
+  August 2015.
+
+\end{thebibliography}
+\endgroup
 \section{Code attachment}
-%\lstinputlisting{build-Project_1-Desktop_Qt_5_7_0_GCC_64bit-Debug/plot1b.py}
 \subsection{Gaussian elimination on general tridiagonal matrix}
 \lstinputlisting{Project_1/main.cpp}
+\subsection{Visualizing solutions in plot}
+\lstinputlisting{build-Project_1-Desktop_Qt_5_7_0_GCC_64bit-Debug/plot1b.py}
 \subsection{Specialized Gaussian elimination on tridiagonal matrix}
 \lstinputlisting{Project_1c/main.cpp}
+\subsection{LU decomposition}
+\lstinputlisting{Project_1e/main.cpp}
 \end{document}

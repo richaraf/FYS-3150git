@@ -20,7 +20,7 @@ int main()
     mat A = zeros<mat>(n,n);
     mat L = zeros<mat>(n,n);
     mat U = zeros<mat>(n,n);
-    mat w = zeros<mat>(n,1);
+    mat btilde = zeros<mat>(n,1);
     double h = 1.0/(n+1);
     double *xcoord = new double[n+1];
 
@@ -48,7 +48,7 @@ int main()
     for (int i = 0; i < n; i++)
     {
         xcoord[i] = i*h;
-        w[i] = pow(h, 2.0)*fofx(xcoord[i]);
+        btilde[i] = pow(h, 2.0)*fofx(xcoord[i]);
     }
 
     // Start timer
@@ -57,14 +57,14 @@ int main()
 
     lu(L,U,A);
 
-    vec y = solve(L,w);
-    vec x = solve(U,y);
-    /*
+    vec y = solve(L,btilde);
+    vec v = solve(U,y);
+    // /*
     for (int i = 0; i< n; i++)
         {
-            cout << "num: " << x[i] << "ana: " << AnalyticalSolution(xcoord[i+1]) << endl;
+            cout << "num: " << v[i] << "ana: " << AnalyticalSolution(xcoord[i+1]) << endl;
         }
-*/
+// */
     // End timer
     finish = clock();
     ((finish-start)/CLOCKS_PER_SEC);

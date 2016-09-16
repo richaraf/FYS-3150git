@@ -1,5 +1,6 @@
-from scitools.std import *
-
+#from scitools.std import *
+import matplotlib.pyplot as plt
+from numpy import *
 with open('1bn10.txt', 'r') as ins:
 	v = [0.0]
 	for line in ins:
@@ -12,13 +13,13 @@ x = zeros(n+2)
 for i in range(0,n+2):
 	x[i] = i*h
 anasol = 1 - (1 - exp(-10))*x - exp(-10*x)
-figure(1)
-#subplot(2,1,1)
-plot(x,v,x,anasol,xlabel='x',ylabel='u(x)',legend=('numerical','analytical'),title='n=10')
-#diff = abs(anasol-v)
-#reldiff = diff/v
-#subplot(2,1,2)
-#plot(x,log10(reldiff),xlabel='x',ylabel='log10(relative error)')
+
+plt.figure(1)
+plt.plot(x,v,'--',x,anasol)
+plt.xlabel('x')
+plt.ylabel('u(x)')
+plt.legend(['numerical','analytical'])
+plt.title('n=10')
 
 with open('1bn100.txt', 'r') as ins:
 	v = [0.0]
@@ -32,13 +33,12 @@ x = zeros(n+2)
 for i in range(0,n+2):
 	x[i] = i*h
 anasol = 1 - (1 - exp(-10))*x - exp(-10*x)
-figure(2)
-#subplot(2,1,1)
-plot(x,v,x,anasol,xlabel='x',ylabel='u(x)',legend=('numerical','analytical'),title='n=100')
-#diff = abs(anasol-v)
-#reldiff = diff/v
-#subplot(2,1,2)
-#plot(x,log10(reldiff),xlabel='x',ylabel='log10(relative error)')
+plt.figure(2)
+plt.plot(x,v,'--',x,anasol)
+plt.xlabel('x')
+plt.ylabel('u(x)')
+plt.legend(['numerical','analytical'])
+plt.title('n=100')
 
 with open('1bn1000.txt', 'r') as ins:
 	v = [0.0]
@@ -52,10 +52,10 @@ x = zeros(n+2)
 for i in range(0,n+2):
 	x[i] = i*h
 anasol = 1 - (1 - exp(-10))*x - exp(-10*x)
-figure(3)
-#subplot(2,1,1)
-plot(x,v,x,anasol,xlabel='x',ylabel='u(x)',legend=('numerical','analytical'),title='n=1000')
-#diff = abs(anasol-v)
-#reldiff = diff/v
-#subplot(2,1,2)
-#plot(x,log10(reldiff),xlabel='x',ylabel='log10(relative error)')
+plt.figure(3)
+plt.plot(x,v,'--',x,anasol)
+plt.xlabel('x')
+plt.ylabel('u(x)')
+plt.legend(['numerical','analytical'])
+plt.title('n=1000')
+plt.show()
