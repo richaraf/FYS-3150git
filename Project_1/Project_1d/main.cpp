@@ -75,7 +75,7 @@ int main()
             }
         }
 
-
+        // print potens and and corresponding max error as a check
         cout << j/2.0 << endl;
         cout << error[j] << endl;
 

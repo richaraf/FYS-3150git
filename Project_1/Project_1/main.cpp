@@ -27,10 +27,6 @@ int main()
     double h = 1.0/(n+1); // declaring the step length h
     //cout << h << endl; // printing step length h
 
-    // Start timer
-    clock_t start, finish;
-    start = clock();
-
 
     for (int i = 1; i <= n+2; i++) // for-loop to generate the x-vectors elements
     {
@@ -42,13 +38,23 @@ int main()
     c[1] = -1;
     k[1] = pow(h,2.0)*fofx(x[1]);
 
-    // Implementation of gaussian elimination:
     for (int i = 2; i <= n+1; i++)
     {
         // First fill the known vectors a, b, c and btild with their values.
         a[i] = -1;
         b[i] = 2;
         c[i] = -1;
+    }
+
+
+    // Start timer
+    clock_t start, finish;
+    start = clock();
+
+
+    // Implementation of gaussian elimination:
+    for (int i = 2; i <= n+1; i++)
+    {
         btild[i] = pow(h, 2.0)*fofx(x[i]);
 
         // Here we do the forward substitution.
@@ -61,7 +67,7 @@ int main()
     {
         v[i] = (k[i] - c[i]*v[i+1])/d[i];
         // Here we can print to see if the numerical values match with the analytical solution.
-        cout << "num = " << v[i] << "ana = " << AnalyticalSolution(x[i]) << endl;
+        //cout << "num = " << v[i] << "ana = " << AnalyticalSolution(x[i]) << endl;
     }
 
     // End timer

@@ -24,6 +24,7 @@ int main()
     double h = 1.0/(n+1);
     double *xcoord = new double[n+1];
 
+    // Fill A with -1, 2, -1 and 0
     int diag = 0;
     for (int i = 0; i < n; i++)
     {
@@ -45,6 +46,7 @@ int main()
         }
     }
 
+    // Generate btilde and the x-axis
     for (int i = 0; i < n; i++)
     {
         xcoord[i] = i*h;
@@ -55,11 +57,16 @@ int main()
     clock_t start, finish;
     start = clock();
 
+    // Perform LU decomposition
     lu(L,U,A);
 
+    // Solve the two matrix equations
     vec y = solve(L,btilde);
     vec v = solve(U,y);
-    // /*
+
+
+    /* // For loop to see if the program behaves as expected
+
     for (int i = 0; i< n; i++)
         {
             cout << "num: " << v[i] << "ana: " << AnalyticalSolution(xcoord[i+1]) << endl;

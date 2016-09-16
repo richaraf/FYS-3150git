@@ -24,10 +24,6 @@ int main()
     double h = 1.0/(n+1); // declaring the step length h
     //cout << h << endl; // printing step length h
 
-    // Start timer
-    clock_t start, finish;
-    start = clock();
-
 
     for (int i = 1; i <= n+2; i++) // for-loop to generate the x-vectors elements
     {
@@ -36,6 +32,11 @@ int main()
     }
     d[1] = 2;
     k[1] = pow(h,2.0)*fofx(x[1]);
+
+
+    // Start timer
+    clock_t start, finish;
+    start = clock();
 
     // gaussian elimination in for-loop:
     for (int i = 2; i <= n+1; i++) // filling btild, and d and k.
