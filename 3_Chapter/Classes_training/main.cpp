@@ -1,9 +1,10 @@
 #include <iostream>
+#include "squared.h"
 
 using namespace std;
 
-int main(int argc, char *argv[])
-{
-    cout << "Hello World!" << endl;
+int main(){
+    Squared<double> s;
+    cout << s(3) << endl;
     return 0;
 }
