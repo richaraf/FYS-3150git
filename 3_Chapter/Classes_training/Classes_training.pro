@@ -4,7 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    date.cpp
+    date.cpp \
+    squared.cpp
 
 HEADERS += \
-    date.h
+    date.h \
+    squared.h
