@@ -8,8 +8,8 @@ public:
     // Default constructor
     Squared(){};
 
-    // Overload the functioin operator()
+    // Overload the function operator()
     T operator()(T x){return x*x;}
+    T cubed(T x);
 };
-
 #endif // SQUARED_H
